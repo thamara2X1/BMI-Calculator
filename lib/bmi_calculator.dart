@@ -9,6 +9,10 @@ class BMICalculatorPage extends StatefulWidget {
 }
 
 class _BMICalculatorPageState extends State<BMICalculatorPage> {
+  bool isMale = true;
+  double height = 183;
+  int weight = 74;
+  int age = 30;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,47 +39,67 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: kTileBorderDecoration,
-                            child: const Column(
-                              children: [
-                                Icon(
-                                  Icons.male,
-                                  size: 50,
-                                  color: kActiveTextColor,
-                                ),
-                                Text(
-                                  "Male",
-                                  style: TextStyle(
-                                    fontSize: 24,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isMale = true;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration:
+                                  isMale
+                                      ? kSelectedTileBorderDecoration
+                                      : kTileBorderDecoration,
+                              child: const Column(
+                                children: [
+                                  Icon(
+                                    Icons.male,
+                                    size: 50,
                                     color: kActiveTextColor,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    "Male",
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: kActiveTextColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(width: 5),
                         Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: kTileBorderDecoration,
-                            child: const Column(
-                              children: [
-                                Icon(
-                                  Icons.female,
-                                  size: 50,
-                                  color: kActiveTextColor,
-                                ),
-                                Text(
-                                  "Female",
-                                  style: TextStyle(
-                                    fontSize: 24,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isMale = false;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration:
+                                  !isMale
+                                      ? kSelectedTileBorderDecoration
+                                      : kTileBorderDecoration,
+                              child: const Column(
+                                children: [
+                                  Icon(
+                                    Icons.female,
+                                    size: 50,
                                     color: kActiveTextColor,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    "Female",
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: kActiveTextColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -95,24 +119,28 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "183",
-                                style: TextStyle(
+                                height.toStringAsFixed(2),
+                                style: const TextStyle(
                                   color: kActiveTextColor,
                                   fontSize: 50,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
+                              const Text(
                                 "cm",
                                 style: TextStyle(color: kActiveTextColor),
                               ),
                             ],
                           ),
                           Slider(
-                            min: 80,
-                            max: 200,
-                            value: 183,
-                            onChanged: (value) {},
+                            min: 60,
+                            max: 250,
+                            value: height,
+                            onChanged: (value) {
+                              setState(() {
+                                height = value;
+                              });
+                            },
                             thumbColor: kButtonColor,
                             activeColor: kActiveTextColor,
                           ),
@@ -134,7 +162,7 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                                   style: TextStyle(color: kActiveTextColor),
                                 ),
                                 Text(
-                                  "75",
+                                  "$weight",
                                   style: TextStyle(
                                     color: kActiveTextColor,
                                     fontSize: 50,
@@ -153,7 +181,11 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                                         CircleBorder(),
                                         0.5,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          if (weight > 25) weight--;
+                                        });
+                                      },
                                       child: Icon(
                                         Icons.remove,
                                         color: kActiveTextColor,
@@ -168,7 +200,13 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                                         CircleBorder(),
                                         0.5,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        if (weight < 250) {
+                                          setState(() {
+                                            weight++;
+                                          });
+                                        }
+                                      },
                                       child: Icon(
                                         Icons.add,
                                         color: kActiveTextColor,
@@ -188,11 +226,11 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                             child: Column(
                               children: [
                                 Text(
-                                  "Height",
+                                  "Age",
                                   style: TextStyle(color: kActiveTextColor),
                                 ),
                                 Text(
-                                  "175",
+                                  "$age",
                                   style: TextStyle(
                                     color: kActiveTextColor,
                                     fontSize: 50,
@@ -211,7 +249,11 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                                         CircleBorder(),
                                         0.5,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          if (age > 10) age--;
+                                        });
+                                      },
                                       child: Icon(
                                         Icons.remove,
                                         color: kActiveTextColor,
@@ -225,7 +267,11 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                                         CircleBorder(),
                                         0.5,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        setState(() {
+                                          if (age < 100) age++;
+                                        });
+                                      },
                                       child: Icon(
                                         Icons.add,
                                         color: kActiveTextColor,
