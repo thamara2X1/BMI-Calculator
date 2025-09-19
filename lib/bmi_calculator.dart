@@ -13,6 +13,12 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
   double height = 183;
   int weight = 74;
   int age = 30;
+  double bmi = 0;
+
+  double calculateBMI({required weight, required height}) {
+    return weight / (height / 100 * height / 100);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -289,8 +295,25 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                 ),
               ),
             ),
-            SizedBox(height: 25),
-            Spacer(),
+            SizedBox(height: 10),
+            Container(
+              decoration: kTileBorderDecoration,
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Text("BMI Result", style: TextStyle(color: kActiveTextColor)),
+                  Text(
+                    bmi.toStringAsFixed(1),
+                    style: TextStyle(
+                      color: kActiveTextColor,
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
             Row(
               children: [
                 Expanded(
@@ -301,7 +324,12 @@ class _BMICalculatorPageState extends State<BMICalculatorPage> {
                       shape: const RoundedRectangleBorder(),
                       minimumSize: Size(double.infinity, 80),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      final bmi = calculateBMI(weight: weight, height: height);
+                      setState(() {
+                        this.bmi = bmi;
+                      });
+                    },
                     child: const Text(
                       'Calculate BMI',
                       style: TextStyle(fontSize: 20),
